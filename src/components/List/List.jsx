@@ -10,7 +10,7 @@ const List = () => {
   const [timePeriod, setTimePeriod] = useState("1-week");
   const [commitActivity, setCommitActivity] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const accessToken = "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"; // Replace with your personal access token
+  const accessToken = "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"; // Replace with your personal access token
 
   useEffect(() => {
     const fetchData = async () => {
