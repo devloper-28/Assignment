@@ -10,7 +10,7 @@ const List = () => {
   const [timePeriod, setTimePeriod] = useState("1-week");
   const [commitActivity, setCommitActivity] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const accessToken = "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"; // Replace with your personal access token
+  const accessToken = "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"; // Replace with your personal access token
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +25,11 @@ const List = () => {
           }
         );
         const data = await response.json();
-        setRepositories((prevRepositories) => [...prevRepositories, ...data.items]);
+        if (currentPage === 1) {
+          setRepositories(data.items);
+        } else {
+          setRepositories((prevRepositories) => [...prevRepositories, ...data.items]);
+        }
         setIsDataEnd(data.items.length === 0);
       } catch (error) {
         console.error("Error occurred:", error);
@@ -136,37 +140,35 @@ const List = () => {
                       <p>
                         <h3 className="responsive_content">
                           <div className="details_list">
-                        <p className="titles"> Repository Name:</p> 
-                         <p className="desc"> {repo.name} </p>
-                         </div>
+                            <p className="titles"> Repository Name:</p> 
+                            <p className="desc"> {repo.name} </p>
+                          </div>
                           <div className="details_list">
-                              <p className="titles">Description:</p>
-                              <p className="desc"> {repo.description}</p>
-                            </div>
-                            <div className="details_list">
-                              <p className="titles">Stars:</p>
-                              <p className="desc"> {repo.stargazers_count}</p>
-                            </div>
-                            <div className="details_list">
-                              <p className="titles">Issues:</p>
-                              <p className="desc"> {repo.open_issues_count}</p>
-                            </div>
+                            <p className="titles">Description:</p>
+                            <p className="desc"> {repo.description}</p>
+                          </div>
+                          <div className="details_list">
+                            <p className="titles">Stars:</p>
+                            <p className="desc"> {repo.stargazers_count}</p>
+                          </div>
+                          <div className="details_list">
+                            <p className="titles">Issues:</p>
+                            <p className="desc"> {repo.open_issues_count}</p>
+                          </div>
                           <span className="arrow">{index === activeAccordion ? "▲" : "▼"}</span>
                         </h3>
-                        {index === activeAccordion && (
-                          <div className="accordion-content ">
-                           
-
-                            <p className="titles">Commit Activity:</p>
-                            <div className="commits">
-                              {commitActivity.map((commits, index) => (
-                                <div className="commit_list" key={index}>
-                                  Week {index + 1}: {commits}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                        {index === activeAccordion && commitActivity && (
+  <div className="accordion-content ">
+    <p className="titles">Commit Activity:</p>
+    <div className="commits">
+      {commitActivity.map((commits, index) => (
+        <div className="commit_list" key={index}>
+          Week {index + 1}: {commits}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
                       </p>
                     </div>
                   </div>
